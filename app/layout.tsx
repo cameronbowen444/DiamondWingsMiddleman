@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dw-middleman.vercel.app"),
+  metadataBase: new URL("https://diamond-wings-middleman.vercel.app"),
 
   title: "Diamond Wings Auto Concierge | Find Your Next Car",
   description:
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Diamond Wings Auto Concierge",
     description:
       "Tell Frank what car you want, your budget, your specs, and whether you want to buy, rent, or lease-to-own.",
-    url: "https://dw-middleman.vercel.app",
+    url: "https://diamond-wings-middleman.vercel.app",
     siteName: "Diamond Wings Auto Concierge",
     images: [
       {
