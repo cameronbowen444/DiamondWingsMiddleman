@@ -122,7 +122,7 @@ const Footer = () => {
 
             <div className="mt-5 grid gap-3">
               <a
-                href="tel:+10000000000"
+                href="tel:8182924112"
                 className="flex items-center gap-3 text-sm font-medium text-white/60 transition hover:text-white"
               >
                 <FiPhone className="text-[#60a5fa]" />
@@ -130,7 +130,7 @@ const Footer = () => {
               </a>
 
               <a
-                href="mailto:example@email.com"
+                href="mailto:frank@diamondwings.com"
                 className="flex items-center gap-3 text-sm font-medium text-white/60 transition hover:text-white"
               >
                 <FiMail className="text-[#60a5fa]" />

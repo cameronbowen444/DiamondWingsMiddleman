@@ -25,16 +25,27 @@ const BookCallModal = () => {
 
   return (
     <>
-      {/* Floating Button */}
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        whileHover={{ y: -3 }}
-        whileTap={{ scale: 0.97 }}
-        className="fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-xl bg-[#3b82f6] px-5 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-[0_18px_45px_rgba(59,130,246,0.35)] transition hover:bg-[#2563eb]"
-      >
-        <FiPhone className="text-lg" />
-        Book a Call
-      </motion.button>
+      {/* Bottom Static CTA */}
+<motion.div
+  initial={{ opacity: 0, y: 18, scale: 0.96 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+  className="fixed bottom-5 right-5 z-50 rounded-2xl border border-white/10 bg-[#07111f]/90 p-1.5 shadow-[0_18px_45px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+>
+  <motion.button
+    onClick={() => setIsOpen(true)}
+    whileHover={{ y: -2 }}
+    whileTap={{ scale: 0.98 }}
+    transition={{ duration: 0.2, ease: "easeOut" }}
+    className="group flex items-center justify-center gap-2 rounded-xl bg-[#3b82f6] px-4 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-[0_12px_30px_rgba(59,130,246,0.32)] transition hover:bg-[#2563eb] sm:px-5 sm:py-3.5 sm:text-sm"
+  >
+    <FiPhone className="text-base sm:text-lg" />
+
+    <span>Book a Call</span>
+
+    <FiArrowUpRight className="text-base transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+  </motion.button>
+</motion.div>
 
       {/* Modal */}
       <AnimatePresence>
@@ -44,6 +55,7 @@ const BookCallModal = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
           >
             {/* Click outside to close */}
             <button
@@ -64,10 +76,13 @@ const BookCallModal = () => {
               </button>
 
               <motion.div
-                initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                initial={{ opacity: 0, y: 30, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 24, scale: 0.96 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
+                exit={{ opacity: 0, y: 18, scale: 0.98 }}
+                transition={{
+                  duration: 0.38,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="relative max-h-[88vh] w-full overflow-y-auto rounded-2xl border border-white/10 bg-[#0b1320] p-5 text-white shadow-[0_30px_90px_rgba(0,0,0,0.45)] md:p-7"
               >
                 {/* Header */}
@@ -192,6 +207,7 @@ const BookCallModal = () => {
                       type="submit"
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
                       className="flex items-center justify-center gap-2 rounded-xl bg-[#3b82f6] px-6 py-4 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_16px_40px_rgba(59,130,246,0.25)] transition hover:bg-[#2563eb]"
                     >
                       Request Call

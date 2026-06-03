@@ -84,7 +84,7 @@ const Navbar = () => {
                   isScrolled ? "text-base" : "text-2xl"
                 }`}
               >
-                Auto Concierge
+                Auto Sales and Rentals
               </h1>
             </div>
           </Link>
@@ -109,7 +109,7 @@ const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden items-center gap-3 lg:flex">
             <a
-              href="tel:+10000000000"
+              href="tel:8182924112"
               className={`flex items-center gap-2 border border-white/10 bg-white/[0.04] font-semibold text-white/80 backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.08] hover:text-white ${
                 isScrolled
                   ? "rounded-xl px-4 py-2 text-sm"
@@ -188,7 +188,7 @@ const Navbar = () => {
 
             <div className="mt-4 grid grid-cols-2 gap-3">
               <a
-                href="tel:+10000000000"
+                href="tel:8182924112"
                 onClick={closeMenu}
                 className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white"
               >
