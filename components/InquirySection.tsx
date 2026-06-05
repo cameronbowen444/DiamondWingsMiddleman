@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   FiArrowUpRight,
   FiCalendar,
-  FiCheckCircle,
+  FiCheck,
   FiDollarSign,
   FiMail,
   FiMapPin,
@@ -16,11 +16,11 @@ import {
 
 const requestTypes = ["Buy", "Rent", "Lease-to-own", "Not sure yet"];
 
-const detailTips = [
-  "Make, model, year, and trim",
-  "Monthly payment or total budget",
-  "Color, mileage, seats, and features",
-  "When you need the vehicle",
+const vehicleTips = [
+  "Specific make, model, or trim",
+  "Budget or monthly payment goal",
+  "Color, mileage, seats, or features",
+  "How soon you need the vehicle",
 ];
 
 const fadeUp = {
@@ -28,245 +28,286 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 };
 
+const inputClass =
+  "w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm font-medium text-white outline-none transition placeholder:text-white/35 focus:border-red-500/60 focus:bg-white/[0.09] focus:ring-4 focus:ring-red-600/10";
+
+const labelClass =
+  "mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55";
+
+const iconClass =
+  "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/35";
+
 const InquirySection = () => {
   return (
     <section
       id="inquiry"
-      className="relative overflow-hidden bg-[#f4f7fb] px-5 py-24 text-[#0b1320]"
+      className="relative overflow-hidden bg-black px-5 py-24 text-white md:px-8"
     >
-      {/* Background */}
-      <div className="absolute right-[-12%] top-[-18%] h-96 w-96 rounded-full bg-[#3b82f6]/10 blur-3xl" />
-      <div className="absolute bottom-[-22%] left-[-12%] h-96 w-96 rounded-full bg-[#60a5fa]/12 blur-3xl" />
+      {/* Background glow */}
+      <div className="absolute left-1/2 top-[-20%] h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-red-600/10 blur-[140px]" />
+      <div className="absolute bottom-[-30%] left-[-15%] h-[420px] w-[420px] rounded-full bg-red-600/10 blur-[130px]" />
+      <div className="absolute bottom-[-30%] right-[-15%] h-[420px] w-[420px] rounded-full bg-white/[0.04] blur-[130px]" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-        {/* Left Content */}
+      <div className="relative mx-auto max-w-7xl">
+        {/* Header */}
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
           variants={fadeUp}
-          className="lg:sticky lg:top-28 lg:self-start"
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="mx-auto max-w-3xl text-center"
         >
-          <div className="mb-5 inline-flex items-center gap-3 rounded-xl border border-[#3b82f6]/15 bg-white px-4 py-2 shadow-sm">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#eff6ff] text-[#2563eb]">
-              <FiSearch />
-            </span>
-
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#2563eb]">
-              Start Your Request
-            </p>
-          </div>
-
-          <h2 className="text-4xl font-bold tracking-[-0.04em] md:text-6xl">
-            Tell Frank exactly what you’re looking for.
-          </h2>
-
-          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 md:text-lg">
-            This is where the search starts. Share the vehicle, budget, payment
-            style, options, and timeline so Diamond Wings can understand what
-            kind of car fits your needs.
+          <p className="text-xs font-medium uppercase tracking-[0.32em] text-red-500">
+            Vehicle Request
           </p>
 
-          <div className="mt-8 grid gap-3">
-            {detailTips.map((tip) => (
-              <div
-                key={tip}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-              >
-                <FiCheckCircle className="shrink-0 text-xl text-[#2563eb]" />
-                <p className="text-sm font-semibold text-slate-700">{tip}</p>
-              </div>
-            ))}
-          </div>
+          <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-medium tracking-[-0.04em] text-white md:text-4xl lg:text-5xl">
+            Tell us what car you want.
+          </h2>
 
-          <div className="mt-8 rounded-2xl border border-[#3b82f6]/15 bg-[#eff6ff] p-5">
-            <p className="text-sm font-semibold leading-7 text-slate-700">
-              The more details you include, the easier it is to understand what
-              you want and what options may make sense.
-            </p>
-          </div>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/45 md:text-base">
+            Send your ideal vehicle, budget, timeline, and must-have details.
+            Frank will review your request and follow up with the next step.
+          </p>
         </motion.div>
 
-        {/* Form */}
-        <motion.form
-          initial={{ opacity: 0, y: 22 }}
+        {/* Main Request Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.18 }}
           transition={{ duration: 0.65, ease: "easeOut" }}
-          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_24px_70px_rgba(15,23,42,0.08)] md:p-7"
+          className="mt-14 overflow-hidden rounded-xl border border-white/10 bg-[#1b1b1b] shadow-[0_18px_60px_rgba(0,0,0,0.35)]"
         >
-          <div className="mb-7 rounded-xl border border-slate-200 bg-[#f8fafc] p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#2563eb]">
-              Vehicle Inquiry Form
-            </p>
-            <h3 className="mt-2 text-2xl font-bold text-[#0b1320]">
-              Request details for buy, rent, or lease-to-own.
-            </h3>
-          </div>
+          <div className="grid lg:grid-cols-[0.8fr_1.2fr]">
+            {/* Left Panel */}
+            <div className="relative overflow-hidden border-b border-white/10 bg-[#111111] p-6 md:p-8 lg:border-b-0 lg:border-r lg:p-10">
+              <div className="absolute right-[-30%] top-[-20%] h-[320px] w-[320px] rounded-full bg-red-600/25 blur-[90px]" />
 
-          {/* Contact Info */}
-          <div>
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-[#2563eb]">
-              Contact Information
-            </p>
+              <div className="relative z-10 flex h-full flex-col">
+                <div>
+                  <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2">
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
+                    <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/55">
+                      Diamond Wings Auto
+                    </span>
+                  </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <label>
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiUser className="text-[#2563eb]" />
-                  Full Name
-                </span>
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
+                  <h3 className="max-w-md text-3xl font-medium leading-tight tracking-[-0.04em] md:text-4xl">
+                    One request. Better direction.
+                  </h3>
 
-              <label>
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiPhone className="text-[#2563eb]" />
-                  Phone Number
-                </span>
-                <input
-                  type="tel"
-                  placeholder="(555) 555-5555"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
+                  <p className="mt-4 max-w-md text-sm leading-7 text-white/45">
+                    This form collects the details that actually matter before
+                    starting the search.
+                  </p>
+                </div>
 
-              <label className="md:col-span-2">
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiMail className="text-[#2563eb]" />
-                  Email Address
-                </span>
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
+                <div className="mt-10 grid gap-3">
+                  {vehicleTips.map((tip) => (
+                    <div
+                      key={tip}
+                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3"
+                    >
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-600 text-white">
+                        <FiCheck className="text-sm" />
+                      </div>
+
+                      <p className="text-sm text-white/60">{tip}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-auto pt-10">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.06] p-5">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-red-400">
+                      Need help faster?
+                    </p>
+
+                    <a
+                      href="tel:8186264592"
+                      className="mt-3 inline-flex items-center gap-2 text-lg font-medium text-white"
+                    >
+                      <FiPhone />
+                      Call Frank
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Request Type */}
-          <div className="mt-8">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-[#2563eb]">
-              How do you want to get the car?
-            </p>
+            {/* Form */}
+            <form className="p-5 md:p-8 lg:p-10">
+              {/* Request Type */}
+              <div>
+                <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
+                  I’m looking to
+                </p>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {requestTypes.map((type) => (
-                <label
-                  key={type}
-                  className="cursor-pointer rounded-xl border border-slate-200 bg-[#f8fafc] p-4 transition hover:border-[#3b82f6]/50 hover:bg-[#eff6ff]"
-                >
-                  <input
-                    type="radio"
-                    name="requestType"
-                    value={type}
-                    className="peer sr-only"
-                  />
-                  <span className="block text-sm font-bold text-slate-600 peer-checked:text-[#2563eb]">
-                    {type}
-                  </span>
-                  <span className="mt-3 block h-2 rounded-full bg-slate-200 peer-checked:bg-[#3b82f6]" />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {requestTypes.map((type) => (
+  <label
+    key={type}
+    className="relative flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.06] p-4 transition hover:border-red-600/35 hover:bg-white/[0.08]"
+  >
+    <input
+      type="radio"
+      name="requestType"
+      value={type}
+      className="peer sr-only"
+    />
+
+    <span className="relative z-10 text-sm font-medium text-white/65 transition peer-checked:text-white">
+      {type}
+    </span>
+
+    {/* Circle */}
+    <span className="relative z-10 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/25 transition peer-checked:border-red-600 peer-checked:bg-red-600">
+      <FiCheck className="text-xs text-white opacity-0 transition peer-checked:opacity-100" />
+    </span>
+
+    {/* Selected card overlay */}
+    <span className="pointer-events-none absolute inset-0 rounded-xl border border-transparent transition peer-checked:border-red-600/60 peer-checked:bg-red-600/[0.08]" />
+  </label>
+))}
+                </div>
+              </div>
+
+              {/* Contact */}
+              <div className="mt-9">
+                <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
+                  Your Contact
+                </p>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <label>
+                    <span className={labelClass}>Full Name</span>
+                    <div className="relative">
+                      <FiUser className={iconClass} />
+                      <input
+                        type="text"
+                        placeholder="Your name"
+                        className={`${inputClass} pl-11`}
+                      />
+                    </div>
+                  </label>
+
+                  <label>
+                    <span className={labelClass}>Phone Number</span>
+                    <div className="relative">
+                      <FiPhone className={iconClass} />
+                      <input
+                        type="tel"
+                        placeholder="(555) 555-5555"
+                        className={`${inputClass} pl-11`}
+                      />
+                    </div>
+                  </label>
+
+                  <label className="md:col-span-2">
+                    <span className={labelClass}>Email Address</span>
+                    <div className="relative">
+                      <FiMail className={iconClass} />
+                      <input
+                        type="email"
+                        placeholder="you@example.com"
+                        className={`${inputClass} pl-11`}
+                      />
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Vehicle Details */}
+              <div className="mt-9">
+                <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
+                  Vehicle Details
+                </p>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <label>
+                    <span className={labelClass}>Make / Model</span>
+                    <div className="relative">
+                      <FiSearch className={iconClass} />
+                      <input
+                        type="text"
+                        placeholder="Toyota Camry XSE, BMW X5..."
+                        className={`${inputClass} pl-11`}
+                      />
+                    </div>
+                  </label>
+
+                  <label>
+                    <span className={labelClass}>Budget</span>
+                    <div className="relative">
+                      <FiDollarSign className={iconClass} />
+                      <input
+                        type="text"
+                        placeholder="$600/month, $35k total..."
+                        className={`${inputClass} pl-11`}
+                      />
+                    </div>
+                  </label>
+
+                  <label>
+                    <span className={labelClass}>Needed By</span>
+                    <div className="relative">
+                      <FiCalendar className={iconClass} />
+                      <input type="date" className={`${inputClass} pl-11`} />
+                    </div>
+                  </label>
+
+                  <label>
+                    <span className={labelClass}>Location</span>
+                    <div className="relative">
+                      <FiMapPin className={iconClass} />
+                      <input
+                        type="text"
+                        placeholder="Los Angeles, Valley..."
+                        className={`${inputClass} pl-11`}
+                      />
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="mt-9">
+                <label>
+                  <span className={labelClass}>Specs, options, and notes</span>
+
+                  <div className="relative">
+                    <FiSliders className="pointer-events-none absolute left-4 top-4 text-white/35" />
+                    <textarea
+                      rows={6}
+                      placeholder="Color, mileage, trim, seats, interior, must-have features, down payment, credit situation, trade-in, delivery timeline, or anything else Frank should know."
+                      className={`${inputClass} resize-none pl-11 leading-7`}
+                    />
+                  </div>
                 </label>
-              ))}
-            </div>
+              </div>
+
+              {/* Submit */}
+              <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
+                <p className="max-w-md text-sm leading-6 text-white/40">
+                  By submitting, you’re requesting follow-up about your vehicle
+                  needs.
+                </p>
+
+                <motion.button
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_40px_rgba(220,38,38,0.25)] transition hover:bg-red-500"
+                >
+                  Submit Request
+                  <FiArrowUpRight />
+                </motion.button>
+              </div>
+            </form>
           </div>
-
-          {/* Vehicle Info */}
-          <div className="mt-8">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-[#2563eb]">
-              Vehicle Details
-            </p>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <label>
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiSearch className="text-[#2563eb]" />
-                  Make / Model
-                </span>
-                <input
-                  type="text"
-                  placeholder="BMW X5, Tesla Model Y, Mercedes GLE..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
-
-              <label>
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiDollarSign className="text-[#2563eb]" />
-                  Budget
-                </span>
-                <input
-                  type="text"
-                  placeholder="$600/month, $35k total, etc."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
-
-              <label>
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiCalendar className="text-[#2563eb]" />
-                  Needed By
-                </span>
-                <input
-                  type="date"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
-
-              <label>
-                <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                  <FiMapPin className="text-[#2563eb]" />
-                  Location / Area
-                </span>
-                <input
-                  type="text"
-                  placeholder="Los Angeles, San Fernando Valley..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-                />
-              </label>
-            </div>
-          </div>
-
-          {/* Extra Details */}
-          <div className="mt-8">
-            <label>
-              <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
-                <FiSliders className="text-[#2563eb]" />
-                Specs, Options, and Notes
-              </span>
-
-              <textarea
-                rows={7}
-                placeholder="Color, mileage, trim, seats, interior, must-have features, down payment, credit situation, trade-in, delivery timeline, or anything else Frank should know."
-                className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-4 text-[#0b1320] outline-none transition placeholder:text-slate-400 focus:border-[#3b82f6] focus:ring-4 focus:ring-[#3b82f6]/10"
-              />
-            </label>
-          </div>
-
-          {/* Submit */}
-          <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <p className="text-sm leading-6 text-slate-500">
-              By submitting, you’re requesting follow-up about your vehicle
-              needs.
-            </p>
-
-            <motion.button
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#3b82f6] px-7 py-4 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_18px_45px_rgba(59,130,246,0.25)] transition hover:bg-[#2563eb]"
-            >
-              Submit Inquiry
-              <FiArrowUpRight />
-            </motion.button>
-          </div>
-        </motion.form>
+        </motion.div>
       </div>
     </section>
   );

@@ -18,29 +18,29 @@ const services = ["Buy a Car", "Rent a Car", "Lease-to-Own", "Custom Search"];
 
 const Footer = () => {
   return (
-    <footer className="relative overflow-hidden bg-[#0b1320] px-5 pt-20 text-white">
+    <footer className="relative overflow-hidden bg-black px-5 pt-24 text-white md:px-8">
       {/* Background */}
-      <div className="absolute left-[-10%] top-[-20%] h-96 w-96 rounded-full bg-[#3b82f6]/15 blur-3xl" />
-      <div className="absolute bottom-[-25%] right-[-10%] h-96 w-96 rounded-full bg-[#60a5fa]/10 blur-3xl" />
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),transparent_38%,rgba(59,130,246,0.08))]" />
+      <div className="absolute left-1/2 top-[-22%] h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-red-600/10 blur-[140px]" />
+      <div className="absolute bottom-[-35%] left-[-15%] h-[420px] w-[420px] rounded-full bg-red-600/10 blur-[130px]" />
+      <div className="absolute bottom-[-35%] right-[-15%] h-[420px] w-[420px] rounded-full bg-white/[0.04] blur-[130px]" />
 
       <div className="relative mx-auto max-w-7xl">
         {/* Top CTA */}
-        <div className="mb-14 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.25)] backdrop-blur-xl md:p-8">
+        <div className="mb-16 overflow-hidden rounded-xl border border-white/10 bg-[#1b1b1b] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.35)] md:p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#93c5fd]">
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
                 Ready to Find Your Next Vehicle?
               </p>
 
-              <h2 className="mt-2 max-w-2xl text-3xl font-bold tracking-[-0.04em] md:text-4xl">
-                Tell Diamond Wings what you want, and start your vehicle request.
+              <h2 className="mt-3 max-w-2xl text-2xl font-medium leading-tight tracking-[-0.04em] text-white md:text-4xl">
+                Tell Diamond Wings what you want. Start your vehicle request.
               </h2>
             </div>
 
             <a
               href="#inquiry"
-              className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#3b82f6] px-6 py-4 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_16px_40px_rgba(59,130,246,0.3)] transition hover:-translate-y-0.5 hover:bg-[#2563eb]"
+              className="inline-flex w-fit shrink-0 items-center justify-center gap-2 rounded-md bg-red-600 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_40px_rgba(220,38,38,0.24)] transition hover:-translate-y-0.5 hover:bg-red-500"
             >
               Start Request
               <FiArrowUpRight />
@@ -49,11 +49,11 @@ const Footer = () => {
         </div>
 
         {/* Main Footer */}
-        <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
+        <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-2 lg:grid-cols-[1.35fr_0.7fr_0.7fr_1fr]">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <div className="relative h-14 w-14 overflow-hidden rounded-2xl border border-white/10 bg-white">
+              <div className="relative h-11 w-11 overflow-hidden rounded-full bg-white">
                 <Image
                   src="/assets/logo.png"
                   alt="Diamond Wings logo"
@@ -63,22 +63,25 @@ const Footer = () => {
               </div>
 
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#93c5fd]">
+                <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
                   Diamond Wings
                 </p>
-                <h3 className="text-xl font-bold">Auto Concierge</h3>
+
+                <h3 className="mt-1 text-lg font-medium tracking-[-0.02em] text-white">
+                  Auto Sales
+                </h3>
               </div>
             </Link>
 
-            <p className="mt-5 max-w-md leading-7 text-white/60">
-              Helping customers request the vehicle they want to buy, rent, or
-              lease-to-own through a simple, personalized inquiry process.
+            <p className="mt-5 max-w-md text-sm leading-7 text-white/45">
+              A request-first auto service for customers looking to buy, rent,
+              or lease-to-own with a more personal process.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-[#93c5fd]">
+            <h4 className="text-[10px] font-medium uppercase tracking-[0.26em] text-white/30">
               Navigation
             </h4>
 
@@ -87,7 +90,7 @@ const Footer = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="w-fit text-sm font-medium text-white/60 transition hover:text-white"
+                  className="w-fit text-sm font-medium text-white/50 transition hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -97,7 +100,7 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-[#93c5fd]">
+            <h4 className="text-[10px] font-medium uppercase tracking-[0.26em] text-white/30">
               Services
             </h4>
 
@@ -106,7 +109,7 @@ const Footer = () => {
                 <a
                   key={service}
                   href="#inquiry"
-                  className="w-fit text-sm font-medium text-white/60 transition hover:text-white"
+                  className="w-fit text-sm font-medium text-white/50 transition hover:text-white"
                 >
                   {service}
                 </a>
@@ -116,29 +119,35 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-[#93c5fd]">
+            <h4 className="text-[10px] font-medium uppercase tracking-[0.26em] text-white/30">
               Contact
             </h4>
 
             <div className="mt-5 grid gap-3">
               <a
                 href="tel:8182924112"
-                className="flex items-center gap-3 text-sm font-medium text-white/60 transition hover:text-white"
+                className="flex items-center gap-3 text-sm font-medium text-white/50 transition hover:text-white"
               >
-                <FiPhone className="text-[#60a5fa]" />
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600/15 text-red-400">
+                  <FiPhone />
+                </span>
                 Call Frank
               </a>
 
               <a
                 href="mailto:frank@diamondwings.com"
-                className="flex items-center gap-3 text-sm font-medium text-white/60 transition hover:text-white"
+                className="flex items-center gap-3 text-sm font-medium text-white/50 transition hover:text-white"
               >
-                <FiMail className="text-[#60a5fa]" />
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600/15 text-red-400">
+                  <FiMail />
+                </span>
                 Send an Email
               </a>
 
-              <div className="flex items-center gap-3 text-sm font-medium text-white/60">
-                <FiMapPin className="text-[#60a5fa]" />
+              <div className="flex items-center gap-3 text-sm font-medium text-white/50">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600/15 text-red-400">
+                  <FiMapPin />
+                </span>
                 Los Angeles Area
               </div>
             </div>
@@ -146,15 +155,15 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="flex flex-col gap-4 py-7 text-sm text-white/45 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 py-7 text-xs text-white/30 md:flex-row md:items-center md:justify-between">
           <p>
-            © {new Date().getFullYear()} Diamond Wings Auto Concierge. All
-            rights reserved.
+            © {new Date().getFullYear()} Diamond Wings Auto Sales. All rights
+            reserved.
           </p>
 
-          <p>
-            Built for vehicle requests, custom searches, and personal auto
-            concierge service.
+          <p className="max-w-md md:text-right">
+            Vehicle requests, custom searches, rentals, and lease-to-own
+            guidance.
           </p>
         </div>
       </div>

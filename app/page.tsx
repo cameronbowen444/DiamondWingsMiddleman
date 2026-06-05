@@ -15,7 +15,7 @@ export default function Home() {
       <Services />
       <InquirySection />
       <Footer />
-      <BookCallModal />
+      {/* <BookCallModal /> */}
     </main>
   );
 }

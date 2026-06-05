@@ -1,12 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  FiArrowUpRight,
-  FiCheck,
-  FiMinus,
-  FiX,
-} from "react-icons/fi";
+import { FiArrowUpRight, FiCheck, FiX } from "react-icons/fi";
 
 const comparisonRows = [
   {
@@ -64,27 +59,27 @@ const renderStatus = (value: string, isMain = false) => {
   if (value === "Yes") {
     return (
       <div
-        className={`mx-auto flex h-9 w-9 items-center justify-center rounded-lg ${
+        className={`mx-auto flex h-9 w-9 items-center justify-center rounded-full ${
           isMain
-            ? "bg-[#3b82f6] text-white"
-            : "bg-[#dbeafe] text-[#2563eb]"
+            ? "bg-red-600 text-white shadow-[0_0_28px_rgba(220,38,38,0.32)]"
+            : "bg-red-600/15 text-red-400"
         }`}
       >
-        <FiCheck />
+        <FiCheck className="text-base" />
       </div>
     );
   }
 
   if (value === "No") {
     return (
-      <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
-        <FiX />
+      <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] text-white/25">
+        <FiX className="text-base" />
       </div>
     );
   }
 
   return (
-    <span className="mx-auto block max-w-[150px] text-center text-sm leading-6 text-slate-500">
+    <span className="mx-auto block max-w-[145px] text-center text-sm leading-6 text-white/45">
       {value}
     </span>
   );
@@ -94,11 +89,12 @@ const Services = () => {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-[#f4f7fb] px-5 py-24 text-[#0b1320]"
+      className="relative overflow-hidden bg-black px-5 py-24 text-white md:px-8"
     >
-      {/* Background */}
-      <div className="absolute right-[-10%] top-[-15%] h-96 w-96 rounded-full bg-[#3b82f6]/10 blur-3xl" />
-      <div className="absolute bottom-[-20%] left-[-10%] h-96 w-96 rounded-full bg-[#60a5fa]/10 blur-3xl" />
+      {/* Background glow */}
+      <div className="absolute left-1/2 top-[-20%] h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-red-600/10 blur-[140px]" />
+      <div className="absolute bottom-[-30%] left-[-15%] h-[420px] w-[420px] rounded-full bg-red-600/10 blur-[130px]" />
+      <div className="absolute bottom-[-30%] right-[-15%] h-[420px] w-[420px] rounded-full bg-white/[0.04] blur-[130px]" />
 
       <div className="relative mx-auto max-w-7xl">
         {/* Header */}
@@ -107,21 +103,20 @@ const Services = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.35 }}
           variants={fadeUp}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mx-auto max-w-4xl text-center"
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="mx-auto max-w-3xl text-center"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#2563eb]">
+          <p className="text-xs font-medium uppercase tracking-[0.32em] text-red-500">
             Why Diamond Wings
           </p>
 
-          <h2 className="mt-4 text-4xl font-bold tracking-[-0.04em] md:text-6xl">
-            A smarter way to find the car you actually want.
+          <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-medium tracking-[-0.04em] text-white md:text-4xl lg:text-5xl">
+            A smarter way to find your next vehicle.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">
-            Instead of only choosing from one dealer’s inventory or scrolling
-            online by yourself, Diamond Wings starts with your request,
-            preferences, budget, and timeline.
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/45 md:text-base">
+            Buy, rent, or lease-to-own with a request-first process built around
+            what you actually want.
           </p>
         </motion.div>
 
@@ -130,16 +125,17 @@ const Services = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
-          className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-3 md:grid-cols-4"
+          transition={{ duration: 0.5, delay: 0.08, ease: "easeOut" }}
+          className="mx-auto mt-10 flex max-w-3xl flex-wrap justify-center gap-3"
         >
           {services.map((service) => (
-            <div
+            <a
               key={service}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-bold text-slate-700 shadow-sm"
+              href="#inquiry"
+              className="rounded-full border border-white/10 bg-[#1b1b1b] px-5 py-3 text-xs font-medium uppercase tracking-[0.16em] text-white/60 transition hover:border-red-600/35 hover:bg-[#202020] hover:text-white"
             >
               {service}
-            </div>
+            </a>
           ))}
         </motion.div>
 
@@ -148,61 +144,59 @@ const Services = () => {
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
-          className="mt-14 hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)] lg:block"
+          transition={{ duration: 0.6, delay: 0.12, ease: "easeOut" }}
+          className="mt-14 hidden overflow-hidden rounded-xl border border-white/10 bg-[#1b1b1b] shadow-[0_18px_60px_rgba(0,0,0,0.35)] lg:block"
         >
-          <div className="grid grid-cols-[1.4fr_1fr_1fr_1fr] border-b border-slate-200 bg-[#0b1320] text-white">
-            <div className="p-6">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#93c5fd]">
-                Features that help you
+          <div className="grid grid-cols-[1.35fr_1fr_1fr_1fr] border-b border-white/10 bg-[#111111] text-white">
+            <div className="p-5">
+              <p className="text-xs font-medium uppercase tracking-[0.24em] text-red-400">
+                Compare The Experience
               </p>
             </div>
 
-            <div className="border-l border-white/10 p-6 text-center">
-              <p className="text-lg font-bold">Diamond Wings</p>
-              <p className="mt-1 text-sm text-white/60">
-                Personal car finder
-              </p>
+            <div className="border-l border-white/10 p-5 text-center">
+              <p className="text-base font-medium">Diamond Wings</p>
+              <p className="mt-1 text-xs text-white/35">Personal search</p>
             </div>
 
-            <div className="border-l border-white/10 p-6 text-center">
-              <p className="text-lg font-bold">Dealership</p>
-              <p className="mt-1 text-sm text-white/60">Their inventory</p>
+            <div className="border-l border-white/10 p-5 text-center">
+              <p className="text-base font-medium">Dealership</p>
+              <p className="mt-1 text-xs text-white/35">Their inventory</p>
             </div>
 
-            <div className="border-l border-white/10 p-6 text-center">
-              <p className="text-lg font-bold">Online Search</p>
-              <p className="mt-1 text-sm text-white/60">You search alone</p>
+            <div className="border-l border-white/10 p-5 text-center">
+              <p className="text-base font-medium">Online Search</p>
+              <p className="mt-1 text-xs text-white/35">You search alone</p>
             </div>
           </div>
 
           {comparisonRows.map((row, index) => (
             <div
               key={row.feature}
-              className={`grid grid-cols-[1.4fr_1fr_1fr_1fr] items-center border-b border-slate-200 last:border-b-0 ${
-                index % 2 === 0 ? "bg-white" : "bg-[#eef3f8]"
+              className={`grid grid-cols-[1.35fr_1fr_1fr_1fr] items-center border-b border-white/10 last:border-b-0 ${
+                index % 2 === 0 ? "bg-[#1b1b1b]" : "bg-[#181818]"
               }`}
             >
-              <div className="p-6 text-base font-semibold text-[#0b1320]">
+              <div className="p-5 text-sm font-medium text-white/70">
                 {row.feature}
               </div>
 
-              <div className="border-l border-slate-200 p-6 text-center">
+              <div className="border-l border-white/10 p-5 text-center">
                 {renderStatus(row.diamondWings, true)}
               </div>
 
-              <div className="border-l border-slate-200 p-6 text-center">
+              <div className="border-l border-white/10 p-5 text-center">
                 {renderStatus(row.dealership)}
               </div>
 
-              <div className="border-l border-slate-200 p-6 text-center">
+              <div className="border-l border-white/10 p-5 text-center">
                 {renderStatus(row.online)}
               </div>
             </div>
           ))}
         </motion.div>
 
-        {/* Mobile List */}
+        {/* Mobile Benefits */}
         <div className="mt-12 grid gap-4 lg:hidden">
           {comparisonRows.map((row, index) => (
             <motion.div
@@ -211,43 +205,19 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{
-                duration: 0.5,
-                delay: index * 0.04,
+                duration: 0.45,
+                delay: index * 0.035,
                 ease: "easeOut",
               }}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+              className="rounded-xl border border-white/10 bg-[#1b1b1b] px-5 py-5 shadow-[0_18px_60px_rgba(0,0,0,0.35)]"
             >
-              <h3 className="text-lg font-bold">{row.feature}</h3>
+              <div className="flex items-center justify-between gap-5">
+                <h3 className="text-base font-medium leading-6 tracking-[-0.03em] text-white/85">
+                  {row.feature}
+                </h3>
 
-              <div className="mt-5 grid gap-3">
-                <div className="rounded-xl bg-[#eff6ff] p-4">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="font-bold text-[#2563eb]">Diamond Wings</p>
-                    <FiCheck className="text-xl text-[#2563eb]" />
-                  </div>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Included with your request
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-slate-50 p-4">
-                    <p className="text-sm font-bold text-slate-700">
-                      Dealership
-                    </p>
-                    <p className="mt-1 text-sm leading-5 text-slate-500">
-                      {row.dealership === "No" ? "Not included" : row.dealership}
-                    </p>
-                  </div>
-
-                  <div className="rounded-xl bg-slate-50 p-4">
-                    <p className="text-sm font-bold text-slate-700">
-                      Online
-                    </p>
-                    <p className="mt-1 text-sm leading-5 text-slate-500">
-                      {row.online === "No" ? "Not included" : row.online}
-                    </p>
-                  </div>
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-600 text-white shadow-[0_12px_28px_rgba(220,38,38,0.28)]">
+                  <FiCheck className="text-xl" />
                 </div>
               </div>
             </motion.div>
@@ -259,25 +229,29 @@ const Services = () => {
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
-          className="mt-14 flex flex-col items-center justify-between gap-5 rounded-2xl bg-[#0b1320] p-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.2)] md:flex-row md:p-8"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mt-14 overflow-hidden rounded-xl border border-white/10 bg-[#1b1b1b] p-6 text-white shadow-[0_18px_60px_rgba(0,0,0,0.35)] md:p-7"
         >
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#93c5fd]">
-              Start With The Details
-            </p>
-            <h3 className="mt-2 text-2xl font-bold md:text-3xl">
-              Tell us what you want. We’ll help point the search in the right direction.
-            </h3>
-          </div>
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
+                Start With The Details
+              </p>
 
-          <a
-            href="#inquiry"
-            className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#3b82f6] px-6 py-4 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_16px_40px_rgba(59,130,246,0.3)] transition hover:-translate-y-0.5 hover:bg-[#2563eb]"
-          >
-            Start Request
-            <FiArrowUpRight />
-          </a>
+              <h3 className="mt-2 max-w-3xl text-2xl font-medium leading-tight tracking-[-0.03em] md:text-3xl">
+                Tell us what you want. We’ll help point the search in the right
+                direction.
+              </h3>
+            </div>
+
+            <a
+              href="#inquiry"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-red-600 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-red-500"
+            >
+              Start Request
+              <FiArrowUpRight />
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

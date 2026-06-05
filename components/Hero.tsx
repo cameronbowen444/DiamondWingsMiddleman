@@ -1,283 +1,138 @@
-"use client";
-
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { FiArrowUpRight, FiCheckCircle, FiSearch } from "react-icons/fi";
-
-const searchOptions = ["Buy", "Rent", "Lease-to-own", "Custom request"];
+import Link from "next/link";
+import {
+  FiArrowRight,
+  FiCalendar,
+  FiDollarSign,
+  FiMapPin,
+  FiSearch,
+} from "react-icons/fi";
+import ScrollArrow from "./ScrollArrow";
 
 const requestItems = [
-  "Preferred make, model, year, and trim",
-  "Budget or monthly payment goal",
-  "Color, mileage, features, and options",
-  "Timeline for when you need the vehicle",
+  {
+    icon: FiMapPin,
+    label: "Vehicle",
+    name: "vehicle",
+    placeholder: "Toyota Camry XSE",
+    type: "text",
+  },
+  {
+    icon: FiDollarSign,
+    label: "Budget",
+    name: "budget",
+    placeholder: "Set range",
+    type: "text",
+  },
+  {
+    icon: FiCalendar,
+    label: "Timeline",
+    name: "timeline",
+    placeholder: "Ready date",
+    type: "date",
+  },
 ];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0 },
-};
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#0b1320] px-5 pt-32 text-white">
+    <section
+      id="home"
+      className="relative min-h-screen overflow-visible bg-black text-white"
+    >
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.28),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(96,165,250,0.16),transparent_35%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(11,19,32,0.15),rgba(11,19,32,0.98))]" />
-
-      {/* Animated soft road-light background */}
-      <div className="absolute inset-0 opacity-70">
-        <motion.div
-          animate={{
-            x: [0, 26, 0],
-            y: [0, -18, 0],
-            scale: [1, 1.08, 1],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-[-10%] top-[18%] h-64 w-[55%] -rotate-6 rounded-full bg-[#3b82f6]/12 blur-3xl"
-        />
-
-        <motion.div
-          animate={{
-            x: [0, -22, 0],
-            y: [0, 20, 0],
-            scale: [1, 1.05, 1],
-          }}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute right-[-12%] top-[12%] h-72 w-[45%] rotate-12 rounded-full bg-[#60a5fa]/10 blur-3xl"
-        />
-
-        <motion.div
-          animate={{
-            x: [0, 18, 0],
-            scale: [1, 1.08, 1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-[-10%] left-[12%] h-80 w-[60%] rounded-full bg-[#1d4ed8]/14 blur-3xl"
-        />
-      </div>
-
-      {/* Subtle diagonal shine */}
-      <motion.div
-        initial={{ x: "-20%", opacity: 0 }}
-        animate={{ x: "0%", opacity: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="absolute inset-0 bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.05)_35%,transparent_55%)]"
+      <div
+        className="absolute inset-0 bg-no-repeat bg-[length:auto_100%] bg-[position:center_58%] md:bg-cover md:bg-center"
+        style={{
+          backgroundImage: "url('/assets/background.png')",
+        }}
       />
 
-      {/* Bottom depth fade */}
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0b1320] to-transparent" />
+      {/* Lighter mobile overlays, desktop stays the same */}
+      <div className="absolute inset-0 bg-black/5 md:bg-black/15" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/0 to-black/25 md:from-black/45 md:via-black/5 md:to-black/45" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/5 md:from-black/25 md:to-black/10" />
 
-      <div className="relative mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-12 pb-20 pt-10 lg:grid-cols-[1fr_0.95fr]">
-        {/* Left Content */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="mb-6 inline-flex items-center gap-3 rounded-xl border border-blue-400/20 bg-white/[0.05] px-4 py-2 backdrop-blur-xl"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3b82f6]/15 text-[#93c5fd]">
-              <FiSearch />
-            </span>
+      {/* Very soft red atmosphere */}
+      <div className="absolute left-1/2 top-[52%] h-[240px] w-[360px] -translate-x-1/2 rounded-full bg-red-600/10 blur-[120px] md:top-[48%] md:h-[280px] md:w-[520px] md:blur-[130px]" />
 
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#93c5fd]">
-              Vehicle Finder Service
-            </p>
-          </motion.div>
+      {/* Text Content */}
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center px-5 pt-20 text-center md:px-8 lg:pt-20">
+        <div className="mt-5 max-w-4xl md:mt-12 lg:mt-14">
+          <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-white/75 md:mb-5 md:text-xs md:tracking-[0.32em]">
+            Auto Sales and Rentals
+          </p>
 
-          <motion.h1
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            transition={{ duration: 0.7, delay: 0.18, ease: "easeOut" }}
-            className="max-w-4xl text-5xl font-bold leading-[1] tracking-[-0.05em] text-white md:text-7xl"
-          >
-            Tell us what car you want.
-            <span className="block bg-gradient-to-r from-[#93c5fd] via-white to-[#3b82f6] bg-clip-text text-transparent">
-              We help you find it.
-            </span>
-          </motion.h1>
+          <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.45)] md:text-5xl lg:text-6xl">
+            Your Next Car Starts Here
+          </h1>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            transition={{ duration: 0.7, delay: 0.28, ease: "easeOut" }}
-            className="mt-7 max-w-2xl text-base leading-8 text-white/68 md:text-lg"
-          >
-            Diamond Wings Auto Concierge helps customers request the vehicle
-            they want to buy, rent, or lease-to-own. Share your budget, specs,
-            options, and timeline so Frank can help search for the right fit.
-          </motion.p>
+          <p className="mx-auto mt-4 max-w-[21rem] text-xs leading-6 text-white/80 drop-shadow-[0_8px_24px_rgba(0,0,0,0.55)] md:mt-5 md:max-w-2xl md:text-base md:leading-7">
+            Buy, rent, or lease-to-own. Share the
+            vehicle, budget, specs, and timeline — Diamond Wings helps find the best deal.
+          </p>
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            transition={{ duration: 0.7, delay: 0.38, ease: "easeOut" }}
-            className="mt-8 flex flex-col gap-3 sm:flex-row"
-          >
-            <motion.a
-              whileHover={{ y: -3, scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
+          <div className="mt-5 flex justify-center md:mt-6">
+            <Link
               href="#inquiry"
-              className="group flex items-center justify-center gap-2 rounded-xl bg-[#3b82f6] px-7 py-4 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_18px_45px_rgba(59,130,246,0.3)] transition hover:bg-[#2563eb]"
+              className="group inline-flex items-center gap-2 text-xs font-medium text-white/80 transition hover:text-white md:text-sm border-1 p-3 rounded-md"
             >
-              Start Vehicle Request
-              <FiArrowUpRight className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </motion.a>
-
-            <motion.a
-              whileHover={{ y: -3, scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
-              href="#how-it-works"
-              className="flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.05] px-7 py-4 text-sm font-bold uppercase tracking-[0.14em] text-white/80 backdrop-blur-xl transition hover:border-[#60a5fa]/50 hover:bg-[#60a5fa]/10 hover:text-white"
-            >
-              See How It Works
-            </motion.a>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            animate="show"
-            transition={{ staggerChildren: 0.08, delayChildren: 0.52 }}
-            className="mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4"
-          >
-            {searchOptions.map((option) => (
-              <motion.div
-                key={option}
-                variants={fadeUp}
-                whileHover={{ y: -4 }}
-                className="rounded-xl border border-white/10 bg-white/[0.05] px-4 py-4 text-center backdrop-blur transition hover:border-[#60a5fa]/40 hover:bg-[#60a5fa]/10"
-              >
-                <p className="text-sm font-semibold text-white/85">{option}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Right Image/Card */}
-        <motion.div
-          initial={{ opacity: 0, x: 42, scale: 0.96 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 0.85, delay: 0.3, ease: "easeOut" }}
-          className="relative"
-        >
-          <motion.div
-            animate={{
-              opacity: [0.55, 0.9, 0.55],
-              scale: [1, 1.04, 1],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute -inset-5 rounded-[2rem] bg-[#3b82f6]/20 blur-3xl"
-          />
-
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.3 }}
-            className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-          >
-            <div className="relative h-[430px] overflow-hidden rounded-xl md:h-[540px]">
-              <Image
-                src="/assets/hero.jpg"
-                alt="Car key handoff"
-                fill
-                priority
-                className="object-cover"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0b1320] via-[#0b1320]/20 to-transparent" />
-
-              {/* Bottom Info Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 28 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.85, ease: "easeOut" }}
-                className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-[#0b1320]/82 p-5 shadow-[0_18px_45px_rgba(2,8,23,0.45)] backdrop-blur-xl"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#93c5fd]">
-                  Request Details
-                </p>
-
-                <h2 className="mt-2 text-2xl font-bold text-white">
-                  Be specific. We’ll use the details.
-                </h2>
-
-                <div className="mt-4 grid gap-3">
-                  {requestItems.map((item, index) => (
-                    <motion.div
-                      key={item}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        duration: 0.45,
-                        delay: 1 + index * 0.08,
-                        ease: "easeOut",
-                      }}
-                      className="flex items-start gap-3 text-sm leading-6 text-white/70"
-                    >
-                      <FiCheckCircle className="mt-1 shrink-0 text-[#60a5fa]" />
-                      <span>{item}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Floating Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: -24, y: 10 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.95, ease: "easeOut" }}
-            className="absolute -left-3 top-8 hidden rounded-xl border border-white/10 bg-white/[0.08] px-5 py-4 shadow-[0_18px_45px_rgba(2,8,23,0.38)] backdrop-blur-xl md:block"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#93c5fd]">
-              No Inventory Needed
-            </p>
-            <p className="mt-1 text-sm text-white/70">
-              Request the car you want
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20, y: 16 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.05, ease: "easeOut" }}
-            className="absolute -bottom-4 right-6 hidden rounded-xl border border-white/10 bg-[#3b82f6] px-5 py-4 shadow-[0_18px_45px_rgba(59,130,246,0.35)] md:block"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-100">
-              Options
-            </p>
-            <p className="mt-1 text-sm font-semibold text-white">
-              Buy • Rent • Lease
-            </p>
-          </motion.div>
-        </motion.div>
+              Start a custom vehicle request
+              <FiArrowRight className="transition group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
       </div>
+
+      {/* Bottom Action Bar */}
+<div className="absolute bottom-6 left-1/2 z-20 w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 md:bottom-12">
+  <div className="overflow-hidden rounded-2xl border border-white/15 bg-black/45 p-2 shadow-[0_25px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl md:rounded-[1.35rem]">
+    <div className="grid grid-cols-[1fr_auto] items-center gap-2 md:grid-cols-[1fr_1fr_1fr_auto]">
+      {requestItems.map((item, index) => {
+        const Icon = item.icon;
+
+        return (
+          <label
+            key={item.label}
+            className={`items-center gap-3 rounded-xl px-4 py-3 text-left transition hover:bg-white/[0.08] ${
+              index === 0 ? "flex" : "hidden md:flex"
+            }`}
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-white/70">
+              <Icon className="text-lg" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-white/60">
+                {item.label}
+              </p>
+
+              <input
+                type={item.type}
+                name={item.name}
+                placeholder={item.placeholder}
+                className="mt-0.5 w-full bg-transparent text-sm font-semibold text-white outline-none placeholder:text-white/90"
+              />
+            </div>
+          </label>
+        );
+      })}
+
+      <Link
+        href="#inquiry"
+        className="group flex h-14 items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold text-black transition hover:bg-red-600 hover:text-white md:h-[58px] md:w-auto md:px-6"
+        aria-label="Start vehicle inquiry"
+      >
+        <span className="hidden md:inline">Search</span>
+        <FiSearch className="text-xl transition group-hover:scale-110" />
+      </Link>
+    </div>
+  </div>
+</div>
+      {/* Bottom fade */}
+      <div className="absolute bottom-2 left-0 right-0 h-20 bg-gradient-to-t from-black/55 to-transparent md:h-28 md:from-black/70" />
+      {/* Scroll Arrow */}
+<div className="absolute bottom-0 left-1/2 z-30 -translate-x-1/2 translate-y-1/2">
+  <ScrollArrow href="#how-it-works" />
+</div>
     </section>
   );
 };
