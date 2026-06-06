@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, type SyntheticEvent } from "react";
 import { motion } from "framer-motion";
 import {
   FiArrowUpRight,
@@ -38,6 +39,52 @@ const iconClass =
   "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/35";
 
 const InquirySection = () => {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle"
+  );
+
+  const handleSubmit = async (
+  e: SyntheticEvent<HTMLFormElement, SubmitEvent>
+) => {
+  e.preventDefault();
+  setStatus("loading");
+
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+
+  const data = {
+    requestType: formData.get("requestType"),
+    fullName: formData.get("fullName"),
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    makeModel: formData.get("makeModel"),
+    budget: formData.get("budget"),
+    neededBy: formData.get("neededBy"),
+    location: formData.get("location"),
+    notes: formData.get("notes"),
+  };
+
+  try {
+    const res = await fetch("/api/inquiry", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to send inquiry");
+    }
+
+    setStatus("success");
+    form.reset();
+  } catch (error) {
+    console.error(error);
+    setStatus("error");
+  }
+};
+
   return (
     <section
       id="inquiry"
@@ -138,7 +185,7 @@ const InquirySection = () => {
             </div>
 
             {/* Form */}
-            <form className="p-5 md:p-8 lg:p-10">
+            <form onSubmit={handleSubmit} className="p-5 md:p-8 lg:p-10">
               {/* Request Type */}
               <div>
                 <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
@@ -147,30 +194,28 @@ const InquirySection = () => {
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   {requestTypes.map((type) => (
-  <label
-    key={type}
-    className="relative flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.06] p-4 transition hover:border-red-600/35 hover:bg-white/[0.08]"
-  >
-    <input
-      type="radio"
-      name="requestType"
-      value={type}
-      className="peer sr-only"
-    />
+                    <label
+                      key={type}
+                      className="relative flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.06] p-4 transition hover:border-red-600/35 hover:bg-white/[0.08]"
+                    >
+                      <input
+                        type="radio"
+                        name="requestType"
+                        value={type}
+                        className="peer sr-only"
+                      />
 
-    <span className="relative z-10 text-sm font-medium text-white/65 transition peer-checked:text-white">
-      {type}
-    </span>
+                      <span className="relative z-10 text-sm font-medium text-white/65 transition peer-checked:text-white">
+                        {type}
+                      </span>
 
-    {/* Circle */}
-    <span className="relative z-10 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/25 transition peer-checked:border-red-600 peer-checked:bg-red-600">
-      <FiCheck className="text-xs text-white opacity-0 transition peer-checked:opacity-100" />
-    </span>
+                      <span className="relative z-10 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/25 transition peer-checked:border-red-600 peer-checked:bg-red-600">
+                        <FiCheck className="text-xs text-white opacity-0 transition peer-checked:opacity-100" />
+                      </span>
 
-    {/* Selected card overlay */}
-    <span className="pointer-events-none absolute inset-0 rounded-xl border border-transparent transition peer-checked:border-red-600/60 peer-checked:bg-red-600/[0.08]" />
-  </label>
-))}
+                      <span className="pointer-events-none absolute inset-0 rounded-xl border border-transparent transition peer-checked:border-red-600/60 peer-checked:bg-red-600/[0.08]" />
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -187,6 +232,8 @@ const InquirySection = () => {
                       <FiUser className={iconClass} />
                       <input
                         type="text"
+                        name="fullName"
+                        required
                         placeholder="Your name"
                         className={`${inputClass} pl-11`}
                       />
@@ -199,6 +246,8 @@ const InquirySection = () => {
                       <FiPhone className={iconClass} />
                       <input
                         type="tel"
+                        name="phone"
+                        required
                         placeholder="(555) 555-5555"
                         className={`${inputClass} pl-11`}
                       />
@@ -211,6 +260,8 @@ const InquirySection = () => {
                       <FiMail className={iconClass} />
                       <input
                         type="email"
+                        name="email"
+                        required
                         placeholder="you@example.com"
                         className={`${inputClass} pl-11`}
                       />
@@ -232,6 +283,8 @@ const InquirySection = () => {
                       <FiSearch className={iconClass} />
                       <input
                         type="text"
+                        name="makeModel"
+                        required
                         placeholder="Toyota Camry XSE, BMW X5..."
                         className={`${inputClass} pl-11`}
                       />
@@ -244,6 +297,7 @@ const InquirySection = () => {
                       <FiDollarSign className={iconClass} />
                       <input
                         type="text"
+                        name="budget"
                         placeholder="$600/month, $35k total..."
                         className={`${inputClass} pl-11`}
                       />
@@ -254,7 +308,11 @@ const InquirySection = () => {
                     <span className={labelClass}>Needed By</span>
                     <div className="relative">
                       <FiCalendar className={iconClass} />
-                      <input type="date" className={`${inputClass} pl-11`} />
+                      <input
+                        type="date"
+                        name="neededBy"
+                        className={`${inputClass} pl-11`}
+                      />
                     </div>
                   </label>
 
@@ -264,6 +322,7 @@ const InquirySection = () => {
                       <FiMapPin className={iconClass} />
                       <input
                         type="text"
+                        name="location"
                         placeholder="Los Angeles, Valley..."
                         className={`${inputClass} pl-11`}
                       />
@@ -280,6 +339,7 @@ const InquirySection = () => {
                   <div className="relative">
                     <FiSliders className="pointer-events-none absolute left-4 top-4 text-white/35" />
                     <textarea
+                      name="notes"
                       rows={6}
                       placeholder="Color, mileage, trim, seats, interior, must-have features, down payment, credit situation, trade-in, delivery timeline, or anything else Frank should know."
                       className={`${inputClass} resize-none pl-11 leading-7`}
@@ -290,18 +350,33 @@ const InquirySection = () => {
 
               {/* Submit */}
               <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
-                <p className="max-w-md text-sm leading-6 text-white/40">
-                  By submitting, you’re requesting follow-up about your vehicle
-                  needs.
-                </p>
+                <div>
+                  <p className="max-w-md text-sm leading-6 text-white/40">
+                    By submitting, you’re requesting follow-up about your
+                    vehicle needs.
+                  </p>
+
+                  {status === "success" && (
+                    <p className="mt-3 text-sm font-medium text-green-400">
+                      Request sent. Frank will follow up soon.
+                    </p>
+                  )}
+
+                  {status === "error" && (
+                    <p className="mt-3 text-sm font-medium text-red-400">
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
+                </div>
 
                 <motion.button
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_40px_rgba(220,38,38,0.25)] transition hover:bg-red-500"
+                  disabled={status === "loading"}
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-red-600 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_40px_rgba(220,38,38,0.25)] transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Submit Request
+                  {status === "loading" ? "Sending..." : "Submit Request"}
                   <FiArrowUpRight />
                 </motion.button>
               </div>
