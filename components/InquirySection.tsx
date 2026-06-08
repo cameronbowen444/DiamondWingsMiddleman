@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type SyntheticEvent } from "react";
+import { useState, type ChangeEvent, type SyntheticEvent } from "react";
 import { motion } from "framer-motion";
 import {
   FiArrowUpRight,
@@ -32,58 +32,198 @@ const fadeUp = {
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm font-medium text-white outline-none transition placeholder:text-white/35 focus:border-red-500/60 focus:bg-white/[0.09] focus:ring-4 focus:ring-red-600/10";
 
+const errorInputClass =
+  "border-red-500/70 focus:border-red-500 focus:ring-red-600/20";
+
 const labelClass =
   "mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55";
 
 const iconClass =
   "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/35";
 
+type FormErrors = {
+  requestType?: string;
+  fullName?: string;
+  phone?: string;
+  email?: string;
+  makeModel?: string;
+  budget?: string;
+  neededBy?: string;
+  location?: string;
+  notes?: string;
+};
+
+type InquiryData = {
+  requestType: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  makeModel: string;
+  budget: string;
+  neededBy: string;
+  location: string;
+  notes: string;
+};
+
+const getFieldValue = (formData: FormData, key: string) => {
+  return String(formData.get(key) || "").trim();
+};
+
+const isValidEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const isValidPhone = (phone: string) => {
+  const digitsOnly = phone.replace(/\D/g, "");
+  return digitsOnly.length === 10;
+};
+
+const isPastDate = (date: string) => {
+  if (!date) return false;
+
+  const selectedDate = new Date(`${date}T00:00:00`);
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  return selectedDate < today;
+};
+
+const formatPhoneNumber = (value: string) => {
+  const numbers = value.replace(/\D/g, "").slice(0, 10);
+
+  if (numbers.length <= 3) {
+    return numbers;
+  }
+
+  if (numbers.length <= 6) {
+    return `(${numbers.slice(0, 3)}) ${numbers.slice(3)}`;
+  }
+
+  return `(${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+};
+
+const validateForm = (data: InquiryData) => {
+  const errors: FormErrors = {};
+
+  if (!data.requestType) {
+    errors.requestType = "Please choose what you are looking for.";
+  }
+
+  if (!data.fullName) {
+    errors.fullName = "Full name is required.";
+  } else if (data.fullName.length < 2) {
+    errors.fullName = "Name must be at least 2 characters.";
+  }
+
+  if (!data.phone) {
+    errors.phone = "Phone number is required.";
+  } else if (!isValidPhone(data.phone)) {
+    errors.phone = "Enter a valid 10-digit phone number.";
+  }
+
+  if (!data.email) {
+    errors.email = "Email is required.";
+  } else if (!isValidEmail(data.email)) {
+    errors.email = "Enter a valid email address.";
+  }
+
+  if (!data.makeModel) {
+    errors.makeModel = "Vehicle make/model is required.";
+  } else if (data.makeModel.length < 2) {
+    errors.makeModel = "Vehicle details are too short.";
+  }
+
+  if (data.budget && data.budget.length < 2) {
+    errors.budget = "Budget looks too short.";
+  }
+
+  if (data.neededBy && isPastDate(data.neededBy)) {
+    errors.neededBy = "Date cannot be in the past.";
+  }
+
+  if (data.location && data.location.length < 2) {
+    errors.location = "Location looks too short.";
+  }
+
+  if (data.notes && data.notes.length > 1000) {
+    errors.notes = "Notes must be under 1000 characters.";
+  }
+
+  return errors;
+};
+
+const ErrorMessage = ({ message }: { message?: string }) => {
+  if (!message) return null;
+
+  return <p className="mt-2 text-xs font-medium text-red-400">{message}</p>;
+};
+
 const InquirySection = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
 
-  const handleSubmit = async (
-  e: SyntheticEvent<HTMLFormElement, SubmitEvent>
-) => {
-  e.preventDefault();
-  setStatus("loading");
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [phoneValue, setPhoneValue] = useState("");
 
-  const form = e.currentTarget;
-  const formData = new FormData(form);
-
-  const data = {
-    requestType: formData.get("requestType"),
-    fullName: formData.get("fullName"),
-    phone: formData.get("phone"),
-    email: formData.get("email"),
-    makeModel: formData.get("makeModel"),
-    budget: formData.get("budget"),
-    neededBy: formData.get("neededBy"),
-    location: formData.get("location"),
-    notes: formData.get("notes"),
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formattedPhone = formatPhoneNumber(e.target.value);
+    setPhoneValue(formattedPhone);
   };
 
-  try {
-    const res = await fetch("/api/inquiry", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  const handleSubmit = async (
+    e: SyntheticEvent<HTMLFormElement, SubmitEvent>
+  ) => {
+    e.preventDefault();
+    setStatus("idle");
 
-    if (!res.ok) {
-      throw new Error("Failed to send inquiry");
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const data: InquiryData = {
+      requestType: getFieldValue(formData, "requestType"),
+      fullName: getFieldValue(formData, "fullName"),
+      phone: getFieldValue(formData, "phone"),
+      email: getFieldValue(formData, "email"),
+      makeModel: getFieldValue(formData, "makeModel"),
+      budget: getFieldValue(formData, "budget"),
+      neededBy: getFieldValue(formData, "neededBy"),
+      location: getFieldValue(formData, "location"),
+      notes: getFieldValue(formData, "notes"),
+    };
+
+    const validationErrors = validateForm(data);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
     }
 
-    setStatus("success");
-    form.reset();
-  } catch (error) {
-    console.error(error);
-    setStatus("error");
-  }
-};
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to send inquiry");
+      }
+
+      setStatus("success");
+      setErrors({});
+      setPhoneValue("");
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
+  };
 
   return (
     <section
@@ -185,7 +325,11 @@ const InquirySection = () => {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="p-5 md:p-8 lg:p-10">
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="p-5 md:p-8 lg:p-10"
+            >
               {/* Request Type */}
               <div>
                 <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-red-400">
@@ -196,7 +340,11 @@ const InquirySection = () => {
                   {requestTypes.map((type) => (
                     <label
                       key={type}
-                      className="relative flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.06] p-4 transition hover:border-red-600/35 hover:bg-white/[0.08]"
+                      className={`relative flex cursor-pointer items-center justify-between gap-4 rounded-xl border bg-white/[0.06] p-4 transition hover:border-red-600/35 hover:bg-white/[0.08] ${
+                        errors.requestType
+                          ? "border-red-500/70"
+                          : "border-white/10"
+                      }`}
                     >
                       <input
                         type="radio"
@@ -217,6 +365,8 @@ const InquirySection = () => {
                     </label>
                   ))}
                 </div>
+
+                <ErrorMessage message={errors.requestType} />
               </div>
 
               {/* Contact */}
@@ -233,11 +383,13 @@ const InquirySection = () => {
                       <input
                         type="text"
                         name="fullName"
-                        required
                         placeholder="Your name"
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.fullName ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.fullName} />
                   </label>
 
                   <label>
@@ -247,11 +399,18 @@ const InquirySection = () => {
                       <input
                         type="tel"
                         name="phone"
-                        required
+                        value={phoneValue}
+                        onChange={handlePhoneChange}
+                        inputMode="numeric"
+                        autoComplete="tel"
+                        maxLength={14}
                         placeholder="(555) 555-5555"
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.phone ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.phone} />
                   </label>
 
                   <label className="md:col-span-2">
@@ -261,11 +420,13 @@ const InquirySection = () => {
                       <input
                         type="email"
                         name="email"
-                        required
                         placeholder="you@example.com"
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.email ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.email} />
                   </label>
                 </div>
               </div>
@@ -284,11 +445,13 @@ const InquirySection = () => {
                       <input
                         type="text"
                         name="makeModel"
-                        required
                         placeholder="Toyota Camry XSE, BMW X5..."
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.makeModel ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.makeModel} />
                   </label>
 
                   <label>
@@ -299,9 +462,12 @@ const InquirySection = () => {
                         type="text"
                         name="budget"
                         placeholder="$600/month, $35k total..."
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.budget ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.budget} />
                   </label>
 
                   <label>
@@ -311,9 +477,12 @@ const InquirySection = () => {
                       <input
                         type="date"
                         name="neededBy"
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.neededBy ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.neededBy} />
                   </label>
 
                   <label>
@@ -324,9 +493,12 @@ const InquirySection = () => {
                         type="text"
                         name="location"
                         placeholder="Los Angeles, Valley..."
-                        className={`${inputClass} pl-11`}
+                        className={`${inputClass} pl-11 ${
+                          errors.location ? errorInputClass : ""
+                        }`}
                       />
                     </div>
+                    <ErrorMessage message={errors.location} />
                   </label>
                 </div>
               </div>
@@ -342,9 +514,13 @@ const InquirySection = () => {
                       name="notes"
                       rows={6}
                       placeholder="Color, mileage, trim, seats, interior, must-have features, down payment, credit situation, trade-in, delivery timeline, or anything else Frank should know."
-                      className={`${inputClass} resize-none pl-11 leading-7`}
+                      className={`${inputClass} resize-none pl-11 leading-7 ${
+                        errors.notes ? errorInputClass : ""
+                      }`}
                     />
                   </div>
+
+                  <ErrorMessage message={errors.notes} />
                 </label>
               </div>
 
